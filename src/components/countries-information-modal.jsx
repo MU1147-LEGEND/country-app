@@ -1,4 +1,3 @@
-import propTypes from 'prop-types';
 
 const CountriesInformation = ({ countryInfo, isOpen }) => {
 
@@ -47,10 +46,6 @@ const CountriesInformation = ({ countryInfo, isOpen }) => {
             </dialog>
         </>
     )
-}
-CountriesInformation.propTypes = {
-    countryInfo: propTypes.object,
-    isOpen: propTypes.bool,
 }
 
 export default CountriesInformation;
