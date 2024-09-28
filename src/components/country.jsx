@@ -10,7 +10,7 @@ const Country = ({ allCountry }) => {
     let filteredCountries = { ...allCountry };
     return (
         <>
-            {filteredCountries?.region === "Americas" || filteredCountries?.region === "Europe" || filteredCountries.name.common ==="India" || filteredCountries.name.common ==="Israel" ? false :
+            {filteredCountries?.region === "Americas" || filteredCountries?.region === "Europe" || filteredCountries.name.common ==="India" || filteredCountries.name.common ==="Israel" || filteredCountries.name.common ==="French Southern and Antarctic Lands" || filteredCountries.name.common === "Saint Helena, Ascension and Tristan da Cunha" ? false :
 
                 <div className="country w-44 h-80 flex flex-col items-center justify-between bg-slate-200 px-4 rounded-md py-4 ">
                     <h1 onClick={handleOpenModal} className="country-name cursor-pointer text-xl font-semibold">{allCountry?.name?.common}</h1>
