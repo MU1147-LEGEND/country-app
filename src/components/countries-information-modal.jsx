@@ -36,7 +36,8 @@ const CountriesInformation = ({ countryInfo, isOpen }) => {
                     <p><span className='font-semibold'>Currency:</span> {`${currency}${symbol ? " - " + symbol : ""}`}</p>
                     <p><span className='font-semibold'>Population:</span> {countryInfo?.population? countryInfo.population:"No Info"}</p>
                     <p><span className='font-semibold'>Area:</span> {countryInfo?.area? countryInfo.area: "No Info"}</p>
-
+                    <p><span className="font-semibold">Country Code:</span> {`${countryInfo?.idd?.root ? countryInfo?.idd?.root : "Not found"}${countryInfo?.idd?.root ? countryInfo?.idd?.suffixes?.[0] : ""}`}</p>
+                    <p><span className="font-semibold">Time Zone: </span>{countryInfo?.timezones? countryInfo.timezones:"Not Found"}</p>
 
                     <a href={countryInfo?.maps?.googleMaps} target='_blank' className='btn btn-info mt-4'>See in Map<i className="fa-solid fa-map-location-dot"></i></a>
                 </div>
