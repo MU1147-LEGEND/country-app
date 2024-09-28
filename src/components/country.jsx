@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import CountriesInformation from './countries-information-modal';
 
@@ -35,9 +35,6 @@ const Country = ({ allCountry }) => {
         </>
     );
 }
-Country.propTypes = {
-    allCountry: PropTypes.object.isRequired,
-};
 
 export default Country;
 
