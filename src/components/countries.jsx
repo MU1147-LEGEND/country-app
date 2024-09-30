@@ -1,9 +1,11 @@
 // /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import Country from './country';
+import Footer from './footer';
 
 const Countries = () => {
     const [countries, setCountries] = useState([]);
+    const [theme, setTheme] = useState("light");
     useEffect(() => {
         const fetchCountries = async () => {
             const URL = "https://restcountries.com/v3.1/all";
@@ -25,22 +27,36 @@ const Countries = () => {
         }
     });
 
+    useEffect(()=>{
+        if(theme === "dark"){
+            document.querySelector("html").setAttribute("data-theme", "dark");
+            // document.querySelector("body").classList.add("dark");
+        }else{
+            document.querySelector("html").setAttribute("data-theme", "light");
+            // document.querySelector("body").classList.remove("dark");
+        }
+    },[theme]);
+
+    const changeTheme = ()=>{
+        setTheme(theme === "dark"? "light" : "dark");
+    }
+
 
     return (
         <>
             <div className="container m-auto p-4 relative">
-                <header className="header h-10 ">
-                    <div className="fixed top-0 left-0 right-0 flex justify-between bg-white/50 w-full py-3 px-10 backdrop-blur-lg">
-                        <a href='#home' className='group text-xl font-semibold bg-gray-800 py-2.5 px-6 rounded-lg cursor-pointer text-white hover:bg-gray-800/95 active:scale-95 transition-all duration-200'><span className="text-transparent bg-gradient-to-r from-yellow-600 to-green-500 group-hover:to-lime-500 group-hover:from-cyan-300 bg-clip-text transition-all duration-200 select-none">World</span></a>
+                <header className="header h-10">
+                    <div className="fixed top-0 left-0 right-0 flex justify-between bg-white/50 w-full py-3 px-4 md:px-8 lg:px-12 backdrop-blur-lg">
+                        <a href='#home' className='group text-xl font-semibold bg-gray-800 py-2.5 lg:px-6 px-3 rounded-lg cursor-pointer text-white hover:bg-gray-800/95 active:scale-90 transition-all duration-200'><span className="text-transparent bg-gradient-to-r from-yellow-600 to-green-500 group-hover:to-lime-500 group-hover:from-cyan-300 bg-clip-text transition-all duration-200 select-none">World</span></a>
                         <div className='flex gap-2'>
-                            <input type="search" name="search" id="search" placeholder='search' className='border border-black/50 rounded-xl pl-4 outline-none' />
+                            <input type="search" name="search" id="search" placeholder='search' className='border border-black/50 rounded-xl pl-4 outline-none w-1/2 lg:w-auto' />
                             <label className="swap swap-rotate">
                                 {/* this hidden checkbox controls the state */}
-                                <input type="checkbox" name='theme' id='theme' />
+                                <input onClick={(e)=>{changeTheme(e)}} type="checkbox" name='theme' id='theme' />
 
                                 {/* sun icon */}
                                 <svg
-                                    className="swap-on h-8 w-8 fill-current"
+                                    className="swap-on h-6 w-6 lg:h-8 lg:w-8 fill-current dark:text-white"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
@@ -49,7 +65,7 @@ const Countries = () => {
 
                                 {/* moon icon */}
                                 <svg
-                                    className="swap-off h-8 w-8 fill-current"
+                                    className="swap-off h-6 w-6 lg:h-8 lg:w-8 fill-current"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24">
                                     <path
@@ -59,10 +75,12 @@ const Countries = () => {
                         </div>
 
                     </div>
+                    <button data-toggle-theme="dark,light" data-act-class="ACTIVECLASS">theme</button>
+
                 </header>
                 <hr className='my-2' />
 
-                <div id='home' className="countries flex gap-4  items-center justify-center flex-wrap">
+                <div id='home' className="countries pt-4 lg:pt-10 flex gap-4  items-center justify-center flex-wrap">
                     {sortedCountries.length > 0 ? (
                         sortedCountries.map((country, index) => (
                             <Country key={country.ccn3 || index + 1} allCountry={country} />
@@ -73,9 +91,7 @@ const Countries = () => {
                     )}
                 </div>
             </div>
-            <footer className='text-center mt-14 py-4 bg-slate-300 w-full text-lg font-medium'>
-                <div className="year">Copyright &copy; {new Date().getFullYear()}</div>
-            </footer>
+            <Footer/>
 
         </>
 

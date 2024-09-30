@@ -10,17 +10,12 @@ const CountriesInformation = ({ countryInfo, isOpen }) => {
     const symbol = currencyInfo[1]?.symbol || '';
 
     const langInfo = countryInfo?.languages ? Object.entries(countryInfo.languages) : "";
-    console.log(langInfo);
-    if (typeof (langInfo) !== "string") {
-        langInfo.forEach((lang) => {
-            console.log(lang[1]);
-        })
-    }
+
 
     if (!isOpen) return null;
     return (
         <>
-            <dialog open className="modal bg-gray-200/80 ">
+            <dialog open className="modal bg-gray-200/80 dark:bg-gray-800/80 ">
                 {/* codes inside modal */}
                 <div className="modal-box space-y-2">
                     {/* manual button for close modal */}
@@ -32,7 +27,7 @@ const CountriesInformation = ({ countryInfo, isOpen }) => {
                     <p><span className='font-semibold'>Capital:</span> {countryInfo?.capital ? countryInfo.capital.join(" ") : "Not Found"}</p>
                     <p><span className='font-semibold'>Region:</span>{countryInfo?.region? countryInfo.region:"Not Found"}</p>
                     <p><span className='font-semibold'>Official Name:</span> {countryInfo?.name?.official}</p>
-                    <p><span className='font-semibold'>Languages:</span> {typeof (langInfo) !== "string" ? langInfo.map((lang) => lang[1]).join(", ") : "Not"} </p>
+                    <p><span className='font-semibold'>Languages:</span> {typeof (langInfo) !== "string" ? langInfo.map((lang) => lang[1]).join(", ") : "No Language"} </p>
                     <p><span className='font-semibold'>Currency:</span> {`${currency}${symbol ? " - " + symbol : ""}`}</p>
                     <p><span className='font-semibold'>Population:</span> {countryInfo?.population? countryInfo.population:"No Info"}</p>
                     <p><span className='font-semibold'>Area:</span> {countryInfo?.area? countryInfo.area: "No Info"}</p>

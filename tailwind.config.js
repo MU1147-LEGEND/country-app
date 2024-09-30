@@ -45,5 +45,6 @@ export default {
       "sunset",
     ],
   },
+  darkMode: ['class', '[data-theme="dark"]'],
 }
 
