@@ -41,7 +41,7 @@ const Countries = () => {
     // debounce function with timeout on searchHandler function
     const timeout = useRef(null);
     const searchSetter = (e) => {
-        setSearchValue(e.target.value);
+        setSearchValue(e.target.value.trim());
     }
 
     useEffect(() => {
