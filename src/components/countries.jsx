@@ -1,5 +1,5 @@
 // /* eslint-disable no-unused-vars */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Country from './country';
 import Footer from './footer';
 
@@ -37,20 +37,31 @@ const Countries = () => {
     // theme change effect part end
 
     // search filter effect
+
+    // debounce function with timeout on searchHandler function
+    const timeout = useRef(null);
     const searchSetter = (e) => {
-        setTimeout(() => {
-            setSearchValue(e.target.value);
-        }, 1000);
+        setSearchValue(e.target.value);
     }
+
     useEffect(() => {
-            const searchHandler = () => {
-                const filter = countries.filter((country) => {
-                    return country.name.common.toLowerCase().includes(searchValue.toLowerCase());
-                });
-                setSearchedCountries(filter);
-                console.log("searching...");
-            }
-            searchHandler();
+        const searchHandler = () => {
+            const filter = countries.filter((country) => {
+                return country.name.common.toLowerCase().
+                    includes(searchValue.toLowerCase());
+            });
+            setSearchedCountries(filter);
+            console.log("searching...");
+        }
+        if (searchValue === "") {
+            setSearchedCountries(countries);
+        } else {
+            clearTimeout(timeout.current);
+            timeout.current = setTimeout(() => {
+                searchHandler();
+            }, 400);
+        }
+
     }, [searchValue]);
     // search filter effect part end
 
