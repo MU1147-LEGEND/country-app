@@ -13,17 +13,32 @@ const Countries = () => {
     const [searchedCountries, setSearchedCountries] = useState([]);
 
     useEffect(() => {
-        const fetchCountries = async () => {
-            const URL = "https://restcountries.com/v3.1/all";
-            const Fetch = await fetch(URL);
-            const result = await Fetch.json();
+        const visitedCountries = localStorage.getItem("visitedCountries");
+        if (visitedCountries) {
+            const local = async () => {
+                const parsedCountries = await JSON.parse(visitedCountries);
+                setSearchedCountries(parsedCountries);
+                setCountries(parsedCountries);
+            }
+            local();
+            
 
-            setCountries(result);
-            setSearchedCountries(result);
+        } else {
+            const fetchCountries = async () => {
+                const URL = "https://restcountries.com/v3.1/all";
+                const Fetch = await fetch(URL);
+                const result = await Fetch.json();
+                const local = result.map((country) => {
+                    return { ...country, visited: false }
+                });
+                localStorage.setItem("visitedCountries", JSON.stringify(local));
+                setCountries(local);
+                setSearchedCountries(local);
+            }
+            fetchCountries();
         }
-        fetchCountries();
-
     }, []);
+
 
 
     // theme change effect
@@ -41,7 +56,7 @@ const Countries = () => {
     // theme change effect part end
 
     // search filter effect
-        // debounce function with timeout on searchHandler function
+    // debounce function with timeout on searchHandler function
     const timeout = useRef(null);
     const searchSetter = (e) => {
         setSearchValue(e.target.value.trim());
