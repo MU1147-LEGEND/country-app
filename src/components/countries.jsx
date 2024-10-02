@@ -1,11 +1,13 @@
+/* eslint-disable no-unused-vars */
 // /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from 'react';
 import Country from './country';
 import Footer from './footer';
+import Loading from './loading';
 
 const Countries = () => {
     const [countries, setCountries] = useState([]);
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
     const [sort, setSort] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [searchedCountries, setSearchedCountries] = useState([]);
@@ -15,6 +17,7 @@ const Countries = () => {
             const URL = "https://restcountries.com/v3.1/all";
             const Fetch = await fetch(URL);
             const result = await Fetch.json();
+
             setCountries(result);
             setSearchedCountries(result);
         }
@@ -32,16 +35,16 @@ const Countries = () => {
         }
     }, [theme]);
     const changeTheme = () => {
+        localStorage.setItem("theme", theme === "dark" ? "light" : "dark");
         setTheme(theme === "dark" ? "light" : "dark");
     }
     // theme change effect part end
 
     // search filter effect
-
-    // debounce function with timeout on searchHandler function
+        // debounce function with timeout on searchHandler function
     const timeout = useRef(null);
     const searchSetter = (e) => {
-        setSearchValue(e.target.value);
+        setSearchValue(e.target.value.trim());
     }
 
     useEffect(() => {
@@ -51,15 +54,15 @@ const Countries = () => {
                     includes(searchValue.toLowerCase());
             });
             setSearchedCountries(filter);
-            console.log("searching...");
         }
-        if (searchValue === "") {
-            setSearchedCountries(countries);
-        } else {
+        if (searchValue) {
             clearTimeout(timeout.current);
             timeout.current = setTimeout(() => {
                 searchHandler();
             }, 400);
+
+        } else {
+            setSearchedCountries(countries);
         }
 
     }, [searchValue]);
@@ -142,7 +145,6 @@ const Countries = () => {
                 </div>
             </div>
             <Footer />
-
         </>
 
     )
