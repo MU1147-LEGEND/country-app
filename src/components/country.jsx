@@ -9,7 +9,7 @@ const Country = ({ allCountry, visitedCountries }) => {
     const index = visitedCountries.findIndex((country) => country?.name?.common === allCountry?.name?.common);
 
     const handleOpenModal = async () => {
-        // checking if index is visited or not, if country is visited then not allowed or vice versa.t
+        // checking if index is visited or not, if country is visited then not allowed or vice versa.
         if (visitedCountries[index].visited === false) {
             setIsModalOpen(true);
             visitedCountries[index].visited = true;
