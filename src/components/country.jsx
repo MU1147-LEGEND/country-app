@@ -3,9 +3,18 @@ import { useState } from 'react';
 import CountriesInformation from './countries-information-modal';
 
 
-const Country = ({ allCountry }) => {
+const Country = ({ allCountry,visitedCountries }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleOpenModal = () => { setIsModalOpen(true) }
+    
+    const index = visitedCountries.findIndex((country) => country?.name?.common === allCountry?.name?.common);
+
+    const handleOpenModal = async() => { 
+
+        // checking if index is visited or not, if country is visited then not allowed or vice versa.t
+        setIsModalOpen(true);
+
+     }
+     
 
     let filteredCountries = { ...allCountry };
     return (
@@ -19,13 +28,13 @@ const Country = ({ allCountry }) => {
                     <p>C Code: {`${filteredCountries?.idd?.root ? filteredCountries?.idd?.root : "Not found"} 
         ${filteredCountries?.idd?.root ? filteredCountries?.idd?.suffixes?.[0] : ""}`}</p>
 
-                    <div className={isModalOpen ? "cursor-not-allowed" : ""}>
+                    <div className={visitedCountries[index].visited ? "cursor-not-allowed" : ""}>
                         <button
-                            className={`btn btn-info mt-3 ${isModalOpen ? "text-white bg-green-500" : "text-black"}`}
+                            className={`btn btn-info mt-3 ${visitedCountries[index].visited ? "text-white bg-green-500" : "text-black"}`}
                             onClick={handleOpenModal}
-                            disabled={isModalOpen}
+                            disabled={visitedCountries[index].visited}
                         >
-                            {isModalOpen ? "Visited" : "More Details"}
+                            {visitedCountries[index].visited ? "Visited" : "More Details"}
                         </button>
                     </div>
 

@@ -12,8 +12,8 @@ const Countries = () => {
     const [searchValue, setSearchValue] = useState('');
     const [searchedCountries, setSearchedCountries] = useState([]);
 
+    const visitedCountries = localStorage.getItem("visitedCountries");
     useEffect(() => {
-        const visitedCountries = localStorage.getItem("visitedCountries");
         if (visitedCountries) {
             const local = async () => {
                 const parsedCountries = await JSON.parse(visitedCountries);
@@ -21,8 +21,6 @@ const Countries = () => {
                 setCountries(parsedCountries);
             }
             local();
-            
-
         } else {
             const fetchCountries = async () => {
                 const URL = "https://restcountries.com/v3.1/all";
@@ -37,9 +35,7 @@ const Countries = () => {
             }
             fetchCountries();
         }
-    }, []);
-
-
+    }, [visitedCountries]);
 
     // theme change effect
     useEffect(() => {
@@ -53,9 +49,7 @@ const Countries = () => {
         localStorage.setItem("theme", theme === "dark" ? "light" : "dark");
         setTheme(theme === "dark" ? "light" : "dark");
     }
-    // theme change effect part end
 
-    // search filter effect
     // debounce function with timeout on searchHandler function
     const timeout = useRef(null);
     const searchSetter = (e) => {
@@ -101,10 +95,10 @@ const Countries = () => {
             if (a.population < b.population) {
                 return -1;
             }
-        })
+        });
     }
     // sorting searched countries part end
-
+    const parsedCountries = JSON.parse(visitedCountries);
     return (
         <>
             <div className="container m-auto p-4 relative">
@@ -151,7 +145,7 @@ const Countries = () => {
                 <div className="countries pt-4 lg:pt-10 flex gap-4  items-center justify-center flex-wrap">
                     {searchedCountries.length > 0 ? (
                         searchedCountries.map((country, index) => (
-                            <Country key={country.ccn3 || index + 1} allCountry={country} />
+                            <Country key={country.ccn3 || index + 1} allCountry={country} visitedCountries={parsedCountries} />
 
                         ))
                     ) : (
